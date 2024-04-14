@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import api from "../../axios/AxiosConfig";
+import { UserType } from "../../utils/types";
+import { Requests } from "../../utils/requests";
 
 const SignUp = () => {
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserType>({
     nom: '',
     prenom: '',
     adress: '',
@@ -16,11 +18,9 @@ const SignUp = () => {
   }
   async function createUser() {
     console.log(api)
-    const response = await api({
-      url: '/register',
-      method: 'POST',
-      data: user
-    })
+
+    const response = await Requests.createUser(user)
+
     if(response.status === 201) {
       console.log(response.data)
     }

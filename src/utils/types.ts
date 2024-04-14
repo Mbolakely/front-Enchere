@@ -61,12 +61,23 @@ export type ArticleDetailsType = {
     dates?: MyDate | undefined
 }
 
+
+
 export interface MyOffer {
     idA: number,
     offer: number
 }
 
-export type dataType = {
+export type SessionType = {
+    date: Date,
+    duree: number,
+    productId: number | undefined,
+    active: boolean,
+  }
+  
+
+
+export type UserType = {
     nom: string,
     prenom: string,
     adress: string,

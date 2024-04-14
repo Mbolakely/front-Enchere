@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ArticleDetailsType } from "../../utils/types";
-import api from "../../axios/AxiosConfig.ts";
+import { ArticleDetailsType, SessionType } from "../../utils/types";
+import { Requests } from "../../utils/requests.ts";
 // import {format} from 'date-fns';
 
 const ArticleDetails: React.FC<ArticleDetailsType> = ({ setDetails, arts }) => {
@@ -14,17 +14,19 @@ const ArticleDetails: React.FC<ArticleDetailsType> = ({ setDetails, arts }) => {
     
     // getUser()
     async function getUser() {
-      const response = await api({
-        url: `/user/get/${stringfiedUserId}`,
-        method: "GET",
-        headers: {
-          // 'Access-Control-Allow-Origin': '*',
-          "Content-Type": "application/json",
-        },
-        // data:
-      });
+      // const response = await api({
+      //   url: `/user/get/${stringfiedUserId}`,
+      //   method: "GET",
+      //   headers: {
+      //     // 'Access-Control-Allow-Origin': '*',
+      //     "Content-Type": "application/json",
+      //   },
+      //   // data:
+      // });
+
+      const response = await Requests.getUser(stringfiedUserId)
       if (response.status === 200) {
-        console.log(response.data);
+        console.log("GET", response.data);
       }
     }
     getUser();
@@ -33,7 +35,7 @@ const ArticleDetails: React.FC<ArticleDetailsType> = ({ setDetails, arts }) => {
     setDetails!(false);
   };
 
-  const [session, setSession] = useState({
+  const [session, setSession] = useState<SessionType>({
     date: new Date(),
     duree: 0,
     productId: arts?.id,
@@ -55,28 +57,19 @@ const [duree, setDuree] = useState<number>();
   // };
 
   // Logique pour envoyer les données au backend
-  const createSession = async ()  =>{
-    console.log(api);
-    const response = await api({
-      url: "/sessions",
-      method: "POST",
-      data: session,
-    });
-    if (response.status === 200) {
-      console.log(response.data);
-    }
-  }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    await setSession({
-          date: debut!,
-          duree: duree!,
-          productId: arts?.id,
-          active: false}
-        );
-    createSession();
-    console.log(session);
+    setSession({
+      date: debut!,
+      duree: duree!,
+      productId: arts?.id,
+      active: false}
+    );
+    const res = await Requests.createSession(session);
+
+    console.log({res})
+    // console.log("session", session);
   };
 
   return (

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import api from "../../axios/AxiosConfig";
+import { Requests } from "../../utils/requests";
 
 const Login = () => {
   const [data, setData] = useState({
@@ -24,15 +25,18 @@ const Login = () => {
     console.log(data);
     event.preventDefault();
     try {
-      const res = await api({
-        url: "/login",
-        method: "POST",
-        headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxMzAxNTMxOCwiZXhwIjoxNzEzMDE4OTE4fQ.2c-VpcPG1ong3ZI7kTdsFOpt3h6aS3cfyu8HIypMqT0",
-        },
-        data: data,
-      });
+      // const res = await api({
+      //   url: "/login",
+      //   method: "POST",
+      //   headers: {
+      //     Authorization:
+      //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxMzAxNTMxOCwiZXhwIjoxNzEzMDE4OTE4fQ.2c-VpcPG1ong3ZI7kTdsFOpt3h6aS3cfyu8HIypMqT0",
+      //   },
+      //   data: data,
+      // });
+
+      const res = await Requests.loginUser(data)
+
       if (res.status === 200) {
         console.log(res.data);
         // Stocker le token dans le localStorage
