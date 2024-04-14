@@ -1,91 +1,102 @@
 import React, { useEffect, useState } from "react";
 import { ArticleDetailsType } from "../../utils/types";
-import { MyDate } from "../../utils/datum";
+import api from "../../axios/AxiosConfig.ts";
 // import {format} from 'date-fns';
 
-const ArticleDetails: React.FC<ArticleDetailsType> = ({
-  setDetails,
-  arts,
-  dates,
-}) => {
-  // useEffect(() => {
-  //   const storedDate = localStorage.getItem("MyDates");
-  //   if (storedDate) {
-  //     const parsedDate: MyDate[] = JSON.parse(storedDate);
-  //     // setDats(parsedDate);
-  //   }
-  //   console.log(storedDate);
-  // }, []);
+const ArticleDetails: React.FC<ArticleDetailsType> = ({ setDetails, arts }) => {
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    const parsedUser = user && JSON.parse(user);
 
+    console.log(parsedUser);
+
+    const stringfiedUserId = parseFloat(parsedUser.id);
+    
+    // getUser()
+    async function getUser() {
+      const response = await api({
+        url: `/user/get/${stringfiedUserId}`,
+        method: "GET",
+        headers: {
+          // 'Access-Control-Allow-Origin': '*',
+          "Content-Type": "application/json",
+        },
+        // data:
+      });
+      if (response.status === 200) {
+        console.log(response.data);
+      }
+    }
+    getUser();
+  }, []);
   const closing = () => {
     setDetails!(false);
   };
 
-  // const [dats, setDats] = useState<MyDate[]>([]);
-  // const [dat, setDat] = useState<MyDate>();
-
-  // const storedOffer = localStorage.getItem("off");
-  // const parsedOffer: number =
-  //   storedOffer && JSON.parse(storedOffer).filter((o) => o.id === arts?.id);
-  // // const max: number = parsedOffer &&
-  // console.log(parsedOffer);
-
-  // const current = parseInt(new Date().setDate(new Date().getDate()).toString());
-  // const currentForm = new Date(current);
-  const expiration = parseInt(
-    MyDate.filter((date) => date.idArt === arts?.id)
-      .map((val, index) => {
-        return val.date;
-      })
-      .toString()
-  );
-  // const form: string = format(new Date(1712752258185), 'MM dd yyyy HH:mm');
-  // const expireForm = new Date(expiration);
-
-  // console.log(current);
-  // console.log(expiration);
-
-  // console.log(currentForm);
-  // console.log(expireForm);
-
-  // const truth = expiration > current;
-  // console.log(truth);
-
-  // const [oF, setOF] = useState<number>(0);
-  // const [id, setId] = useState<number>();
-
-  // const saveOffer = async () => {
-  //   await setId(arts?.id);
-  //   interface offer {
-  //     id: number;
-  //     offerS: Number;
-  //   }
-  //   var offer: offer = {
-  //     id: id!,
-  //     offerS: oF! || 0,
-  //   };
-
-  //   var off = JSON.parse(localStorage.getItem("off") || "[]");
-  //   off.push(offer);
-  //   localStorage.setItem("off", JSON.stringify(off));
+  const [session, setSession] = useState({
+    date: new Date(),
+    duree: 0,
+    productId: arts?.id,
+    active: false,
+  });
+// const [session, setSession] = useState();
+const [debut, setDebut] = useState<Date>();
+const [duree, setDuree] = useState<number>();
+// const [idProd, setIdProd] = useState<number>();
+// const [active, setActive] = useState(false)
+  // const handleInput = (event) => {
+  //   setSession((prev) => ({
+  //     ...prev,
+  //     date: new Date(event.target.value),
+  //     duree: parseInt(event.target.value),
+  //     productId: event.target.value,
+  //     active: false
+  //   }));
   // };
 
-  //  const vals: number = parsedOffer ? parsedOffer[1].offerS : 0
-  //  console.log('vals ito',vals)
+  // Logique pour envoyer les données au backend
+  const createSession = async ()  =>{
+    console.log(api);
+    const response = await api({
+      url: "/sessions",
+      method: "POST",
+      data: session,
+    });
+    if (response.status === 200) {
+      console.log(response.data);
+    }
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    await setSession({
+          date: debut!,
+          duree: duree!,
+          productId: arts?.id,
+          active: false}
+        );
+    createSession();
+    console.log(session);
+  };
+
   return (
     <div className="inset-0 z-10 fixed w-screen flex justify-center h-screen pt-6 bg-black bg-opacity-5">
-      <div className="bg-white w-[80rem] h-[45rem] rounded-md flex gap-2">
+      <div className="bg-white w-[70rem] h-[45rem] rounded-md flex gap-6">
         <div className="flex-1 flex items-center justify-center">
           <div
-            className={`bg-${arts?.image} bg-center bg-cover bg-no-repeat w-[35rem] h-[35rem] rounded-md`}
+            className={`bg-${arts?.image} bg-center bg-cover bg-no-repeat w-[30rem] h-[35rem] rounded-md ml-6`}
           ></div>
         </div>
         <div className="flex-1 flex flex-col justify-between bg-white p-8 ">
           <div className="flex flex-col flex-1 pt-8 gap-2">
             {/* <span>{arts?.id}</span> */}
             <span className="text-4xl font-bold font-serif">{arts?.name}</span>
-            <span>Catégorie :<b>{arts?.cat}</b></span>
-            <span>Valeur estimatif de départ <b>{arts?.value} Ar</b></span>
+            <span>
+              Catégorie :<b>{arts?.cat}</b>
+            </span>
+            <span>
+              Valeur estimatif de départ <b>{arts?.value} Ar</b>
+            </span>
             <span>Description : {arts?.description}</span>
             {/* <span>{dates?.idArt}</span> */}
             {/* <span>{expireForm+''}</span> */}
@@ -96,54 +107,52 @@ const ArticleDetails: React.FC<ArticleDetailsType> = ({
               }
             )} */}
           </div>
-          <div className="flex flex-1 flex-col justify-around px-4">
-            {/* {parsedOffer[0].offerS} */}
-            {/* {vals} */}
-            {/* <div className="w-[10rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
-              <input
-                type="text"
-                placeholder={`${arts?.value} Ariary`}
-                className="border-none h-12 w-full px-4 focus-within:outline-none"
-                disabled
-              />
-            </div> */}
-            {/* <div className="w-[10rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
-              <input
-                type="text"
-                // placeholder={`${oF || vals} Ariary`}
-                className="border-none h-12 w-full px-4 focus-within:outline-none"
-                disabled
-              />
-            </div>
-            <div className="w-full border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
-              <input
-                type="number"
-                placeholder="Offre..."
-                className="border-none h-12 w-full px-4 focus-within:outline-none"
-                required
-                // value={oF}
-                onChange={(e) => {
-                  const offA = parseInt(e.target.value);
-                  // setOF(offA);
-                  // console.log(oF);
-                }}
-              />
-            </div> */}
-          </div>
-
-          <div className="flex gap-5 items-end justify-end pr-5">
-            <div
-              className="bg-purple-400 rounded-lg h-[2.5rem] flex items-center justify-center w-[12rem] cursor-pointer"
-              // onClick={saveOffer}
+          <div>
+            <form
+              className="flex flex-1 justify-around px-4 flex-col"
+              onSubmit={handleSubmit}
             >
-              Participer à l'enchère
-            </div>
-            <div
-              className="bg-purple-400 rounded-lg h-[2.5rem] flex items-center justify-center w-[7rem] cursor-pointer"
-              onClick={closing}
-            >
-              Fermer
-            </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="">Date</label>
+                <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
+                  <input
+                    type="datetime-local"
+                    name="date"
+                    className="border-none h-12 w-full px-4 focus-within:outline-none"
+                    onChange={(event)=>{
+                      const d = event.target.value;
+                      const dt = new Date(d)
+                      dt && setDebut(dt)
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="">Durée en minutes</label>
+                <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
+                  <input
+                    type="number"
+                    name="duree"
+                    className="border-none h-12 w-full px-4 focus-within:outline-none"
+                    onChange={(event)=>setDuree(parseInt(event?.target.value))}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-12 mt-6">
+                <button
+                  className="bg-purple-400 rounded-lg h-[2.5rem] flex items-center justify-center w-[12rem] cursor-pointer"
+                  type="submit"
+                >
+                  Commencer l'enchère
+                </button>
+                <div
+                  className="bg-purple-400 rounded-lg h-[2.5rem] flex items-center justify-center w-[7rem] cursor-pointer"
+                  onClick={closing}
+                >
+                  Fermer
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

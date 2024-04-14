@@ -1,6 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import api from "../../axios/AxiosConfig";
 
 const SignUp = () => {
+  const [user, setUser] = useState({
+    nom: '',
+    prenom: '',
+    adress: '',
+    contact: '',
+    email: '',
+    password: '',
+    isAdmin: false
+  })
+  const handleInput = (event) => {
+    setUser(prev => ({...prev, [event.target.name] : event.target.value}) )
+  }
+  async function createUser() {
+    console.log(api)
+    const response = await api({
+      url: '/register',
+      method: 'POST',
+      data: user
+    })
+    if(response.status === 201) {
+      console.log(response.data)
+    }
+  }
+  const handleSubmit = () => {
+    console.log(user)
+    createUser()
+  }
   return (
     <div className="h-screen flex justify-center items-center">
     <div className="flex w-[80rem] h-[45rem]">
@@ -13,11 +41,13 @@ const SignUp = () => {
         </div>
         <div className="flex flex-col gap-2 justify-center items-center">
         <div className="flex flex-col gap-1">
-            <label htmlFor="">Nom</label>
+            <label htmlFor="nom">Nom</label>
             <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
               <input
                 type="text"
+                name="nom"
                 className="border-none h-12 w-full px-4 focus-within:outline-none"
+                onChange={handleInput}
               />
             </div>
           </div>
@@ -26,7 +56,9 @@ const SignUp = () => {
             <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
               <input
                 type="text"
+                name="prenom"
                 className="border-none h-12 w-full px-4 focus-within:outline-none"
+                onChange={handleInput}
               />
             </div>
           </div>
@@ -35,7 +67,9 @@ const SignUp = () => {
             <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
               <input
                 type="text"
+                name="adress"
                 className="border-none h-12 w-full px-4 focus-within:outline-none"
+                onChange={handleInput}
               />
             </div>
           </div>
@@ -44,7 +78,9 @@ const SignUp = () => {
             <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
               <input
                 type="text"
+                name="contact"
                 className="border-none h-12 w-full px-4 focus-within:outline-none"
+                onChange={handleInput}
               />
             </div>
           </div>
@@ -53,7 +89,9 @@ const SignUp = () => {
             <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
               <input
                 type="email"
+                name="email"
                 className="border-none h-12 w-full px-4 focus-within:outline-none"
+                onChange={handleInput}
               />
             </div>
           </div>
@@ -62,11 +100,14 @@ const SignUp = () => {
             <div className="w-[24rem] border-[1.5px] border-gray-400 rounded-xl overflow-hidden">
               <input
                 type="password"
+                name="password"
                 className="border-none h-12 w-full px-4 focus-within:outline-none"
+                onChange={handleInput}
               />
             </div>
           </div>
-          <div className="bg-nav rounded-lg h-[2.5rem] flex items-center justify-center w-[10rem] cursor-pointer mt-4">
+          <div className="bg-nav rounded-lg h-[2.5rem] flex items-center justify-center w-[10rem] cursor-pointer mt-4"
+          onClick={handleSubmit}>
             Log in
           </div>
         </div>
