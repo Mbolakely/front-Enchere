@@ -10,8 +10,7 @@ const AboutPub = () => {
       <div className="flex-1">
         <div className="flex flex-col pr-16 gap-8">
           <span className="text-5xl text-end font-mono">
-            Who are we and how do we work?
-          </span>
+Qui sommes-nous? Comment fonctionnons-nous?          </span>
           <div className="flex flex-col gap-1">
             <span className="text-end text-2xl">
               We are a group organisation
@@ -34,9 +33,6 @@ const AboutPub = () => {
             </span>
             <span className="text-end text-2xl">
               We are a group organisation vsdkdjjqMMc
-            </span>
-            <span className="text-end text-2xl">
-              We are a group organisation vsdkdjjqc
             </span>
           </div>
           <div className="flex justify-end">

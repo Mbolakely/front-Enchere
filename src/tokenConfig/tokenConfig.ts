@@ -5,7 +5,8 @@ export const getTokenFromLocalStorage = () => {
  export const logout = () => {
   localStorage.removeItem('token');
   // Rediriger l'utilisateur vers la page de connexion ou la page d'accueil
-  window.location.href = '/login';
+  window.location.href = '/home';
+  alert("vous etes déconnécté");
  };
 
 

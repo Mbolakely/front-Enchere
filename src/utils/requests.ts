@@ -31,6 +31,8 @@ export const Requests = {
   },
   createSession: async (data: SessionType) => {
     return await request({url: '/sessions', method: 'POST', data})
+  },
+  getAllSessions: async () => {
+    return await request({url: "/sessions", method: "GET"})
   }
-    
 }

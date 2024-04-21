@@ -23,15 +23,15 @@ export type CardResultType = {
 };
 export type ArticleType = {
     id?: number,
-    cat: string,
-    name: string,
-    value: number,
-    image: string,
+    cat?: string,
+    name?: string,
+    value?: number,
+    image?: string,
     description?: string
     handleArticle?: React.Dispatch<React.SetStateAction<boolean>>
-    idd: number,
+    idd?: number,
     setArts?:  React.Dispatch<React.SetStateAction<MyArticle>>,
-    handle: ()=> void,
+    handle?: ()=> void,
     handleDate?: ()=> void,
 };
 export type CategoriesType = {
@@ -69,7 +69,7 @@ export interface MyOffer {
 }
 
 export type SessionType = {
-    date: Date,
+    date: string,
     duree: number,
     productId: number | undefined,
     active: boolean,
@@ -85,4 +85,21 @@ export type UserType = {
     email: string,
     password: string,
     isAdmin: boolean
+}
+
+export type sesType = {
+    date?: Date,
+    duree?: number,
+    productId?: number,
+    active?: boolean,
+    setDetails?: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type bidType = {
+    product?: string,
+    basicValue?: number,
+    duration?: number,
+    about?: string,
+    image?: string,
+    idProduct?: number
 }

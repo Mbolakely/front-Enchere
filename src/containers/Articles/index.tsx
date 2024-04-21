@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Article from "../../components/Article";
 import ArticleDetails from "../../components/ArticleDetails";
-import { MyArticle, MyDate } from "../../utils/datum";
+import { MyArticle } from "../../utils/datum";
+import Bid from "../../components/Bid";
+import { io, Socket } from 'socket.io-client';
+import { ServerToClientEvents, ClientToServerEvents } from "../../utils/socketType";
+
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:8000/");
 
 const Articles = () => {
+ 
   const [art, setArt] = useState<MyArticle[]>([]);
 
   const [details, setDetails] = useState(false);
+  const [disponible, setDisponible] = useState("");
+  const [duration, setDuration] = useState<number>();
+  const [product, setProduct] = useState("");
+  const [basic, setBasic] = useState<number>();
+  const [about, setAbout] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     localStorage.setItem("myArticle", JSON.stringify(MyArticle));
@@ -16,17 +28,7 @@ const Articles = () => {
       setArt(parsedArticle);
     }    
   }, []);
-  // const expiration = parseInt(
-  //   MyArticle.filter((date) => date.cat === arts?.cat)
-  //     .map((val, index) => {
-  //       return val.cat;
-  //     })
-  //     .toString()
-  // );
-  // console.log(expiration)
-
-  // console.log(dates);
-  // const [dat, setDat] = useState<MyDate>();
+  
   const [arts, setArts] = useState<MyArticle>();
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -49,12 +51,58 @@ const Articles = () => {
       setCurrentPage(currentPage + 1)
     }
   }
+
+  socket.on("idProductEvent", (idprod)=>{
+    console.log(idprod);
+    const base = MyArticle.filter((basicValue)=> basicValue.id === idprod).map(
+      (val, index) => {
+        return val.value
+      }
+    )
+    const product = MyArticle.filter((product)=> product.id === idprod).map(
+      (val, index) => {
+        return val.name
+      }
+    )
+    const about = MyArticle.filter((about)=> about.id === idprod).map(
+      (val, index) => {
+        return val.description
+      }
+    )
+    const image = MyArticle.filter((image)=> image.id === idprod).map(
+      (val, index) => {
+        return val.image
+      }
+    )
+    let prod: string = product.join("")
+    let baseValue: number = base.reduce((acc, curr) => acc + curr, 0)
+    let description: string = about.join("")
+    let photo: string = image.join("")
+
+    setAbout(description)
+    setBasic(baseValue)
+    setProduct(prod)
+    setDuration(idprod)
+    setImage(photo)
+    socket.emit("basicValue", base)
+  })
+  socket.on("serverMsg", (message) => {
+    console.log(message);
+    ()=>setDisponible(message);
+  })
   return (
     <div className="-translate-y-56 flex flex-col gap-4">
+      <span className="text-white text-2xl pl-4 cursor-pointer" onClick={()=>setDisponible("disponible")}>L'enchère disponible</span>
+      {
+        disponible && (
+          <div className="flex flex-col gap-2">
+      <Bid about={about} basicValue={basic} duration={duration} product={product} image={image} idProduct={duration}></Bid>
+      </div>
+        )
+      }
       <div className="justify-center items-center flex p-4 text-2xl pl-14">
-        <div className="rounded-lg px-3 py-2 flex items-center justify-center cursor-pointer text-7xl gap-2 text-white font-thin">
+        <div className="rounded-lg px-3 py-2 flex flex-col items-center justify-center cursor-pointer text-7xl gap-2 text-black font-thin">
           <span className="">Nos articles</span>
-          {/* <div className="h-[1.5rem] w-[1.5rem] bg-black"></div> */}
         </div>
       </div>
       <div className="flex flex-wrap gap-8 justify-center">

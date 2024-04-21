@@ -35,8 +35,7 @@ const Dashboard = () => {
               })}
             </div>
           <div className="flex flex-col gap-6 ml-4 translate-y-10">
-            <div className="w-[30rem] h-[35rem] bg-slate-500 rounded-lg">
-              PARTIE DU LOGO ?
+            <div className="w-[30rem] h-[35rem] bg-logo2 bg-contain bg-center bg-no-repeat rounded-lg">
             </div>
           </div>
           </div>

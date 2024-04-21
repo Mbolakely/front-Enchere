@@ -28,6 +28,7 @@ const SignUp = () => {
   const handleSubmit = () => {
     console.log(user)
     createUser()
+    window.location.href = '/login'
   }
   return (
     <div className="h-screen flex justify-center items-center">

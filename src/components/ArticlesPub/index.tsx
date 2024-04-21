@@ -48,7 +48,7 @@ const ArticlesPub = () => {
                value={val.value}
                image={val.image}
                cat={val.cat}
-               description={val.description}
+              //  description={val.description}
                key={index}
                handleArticle={setDetails}
               ></Article>

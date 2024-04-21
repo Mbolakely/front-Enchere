@@ -18,14 +18,14 @@ const Article: React.FC<ArticleType> = ({
   return (
     <div className="w-80 h-72 bg-slate-600 flex flex-col rounded-md hover:scale-105 duration-100 cursor-pointer">
       <div
-        className={`h-56 bg-slate-400 bg-${image} bg-center bg-no-repeat bg-cover rounded-t-md`}
+        className={`h-64 bg-slate-400 bg-${image} bg-center bg-no-repeat bg-cover rounded-t-md`}
       ></div>
       <div className="flex flex-col justify-center items-center">
-        <span className="text-[#9e9a7a] text-2xl">
+        <span className="text-[#9e9a7a] text-lg">
           {name} {id}
         </span>
-        <span className="text-[#dda9a9] text-xl">{value} Ar</span>
-        <span className=" text-[#C3DDFD] text-lg">
+        <span className="text-[#dda9a9] text-lg">{value} Ar</span>
+        <span className=" text-[#C3DDFD] text-md">
           {cat} {description}
         </span>
       </div>
@@ -35,7 +35,7 @@ const Article: React.FC<ArticleType> = ({
           onClick={() => {
             handleArticle && handleArticle(true);
             setGetId(idd);
-            handle()
+            handle!()
             // handleDate()
           }}
           >
