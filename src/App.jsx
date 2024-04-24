@@ -13,7 +13,7 @@ import Login from './containers/Login';
 function App() {
 
   return (
-    <div className='bg-[#f5eded]'>
+    <div className='text-[#1f1a1a] bg-[#756868]'>
       <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home/>}>

@@ -13,6 +13,7 @@ export default {
 
       },
       backgroundImage: {
+        'home': "url('/src/assets/home.svg')",
         'vehicules': "url('/src/assets/vehicules.PNG')",
         'arts': "url('/src/assets/arts.PNG')",
         'car': "url('/src/assets/car.jpg')",
@@ -49,7 +50,13 @@ export default {
         'tele': "url('/src/assets/tele.jpg')",
         'vynile': "url('/src/assets/vynile.jpg')",
         'illustration': "url('/src/assets/illustration.jpg')",
-        'illustration2': "url('/src/assets/illustration2.jpg')"
+        'illustration2': "url('/src/assets/illustration2.jpg')",
+        'majungaTall': "url('/src/assets/majungaTall.jpg')",
+        'fianarTall': "url('/src/assets/fianarantsoa.jpg')",
+        'diegoTall': "url('/src/assets/antsiranana.jpg')",
+        'toliaraTall': "url('/src/assets/toliara.jpg')",
+        'tanaTall': "url('/src/assets/tana.jpg')",
+        'tamataveTall': "url('/src/assets/tamatave.jpg')"
       }
     },
   },

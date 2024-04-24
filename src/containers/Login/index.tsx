@@ -25,16 +25,6 @@ const Login = () => {
     console.log(data);
     event.preventDefault();
     try {
-      // const res = await api({
-      //   url: "/login",
-      //   method: "POST",
-      //   headers: {
-      //     Authorization:
-      //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxMzAxNTMxOCwiZXhwIjoxNzEzMDE4OTE4fQ.2c-VpcPG1ong3ZI7kTdsFOpt3h6aS3cfyu8HIypMqT0",
-      //   },
-      //   data: data,
-      // });
-
       const res = await Requests.loginUser(data)
 
       if (res.status === 200) {
@@ -56,7 +46,6 @@ const Login = () => {
           console.log(localStorage.getItem('user'))
           window.location.href = "/home"
         }
-        // window.location.href = "/home";
       }
     } catch (error) {
       console.error(

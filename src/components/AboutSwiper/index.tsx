@@ -1,11 +1,14 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PersonnalDetails from "../PersonnalDetails";
+import Cedrick from "../Cedrick";
+import Duler from "../Duler";
 import "Swiper/css";
 import "Swiper/css/navigation";
 import "swiper/bundle";
 import "swiper/css/scrollbar";
-import "swiper/css/pagination"
+import "swiper/css/pagination";
+
 
 const AboutSwiper = () => {
   return (
@@ -21,9 +24,9 @@ const AboutSwiper = () => {
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => console.log(swiper)}
       >
-        <SwiperSlide className=''><PersonnalDetails></PersonnalDetails></SwiperSlide>
-        <SwiperSlide className='bg-red-500 flex justify-center items-center'>Slide 2</SwiperSlide>
-        <SwiperSlide className='bg-red-500 flex justify-center items-center'>Slide 3</SwiperSlide>
+        <SwiperSlide><PersonnalDetails></PersonnalDetails></SwiperSlide>
+        <SwiperSlide><Cedrick></Cedrick></SwiperSlide>
+        <SwiperSlide><Duler></Duler></SwiperSlide>
 
       </Swiper>
     </div>

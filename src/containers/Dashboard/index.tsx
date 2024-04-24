@@ -43,7 +43,7 @@ const Dashboard = () => {
         {/* second part */}
         <AboutPub></AboutPub>
         {/* third part */}
-        <ResultsPub></ResultsPub>
+        {/* <ResultsPub></ResultsPub> */}
         {/* fourth part */}
         <ArticlesPub></ArticlesPub>
       </div>
